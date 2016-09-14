@@ -240,7 +240,7 @@ public class ALEPipes {
      * @param act
      * @return
      */
-    public boolean act(int act) {
+    public boolean act(int act_a, int act_b) {
         // Ensure that we called observe() last
         if (!hasObserved) {
             throw new RuntimeException("act() called before observe().");
@@ -248,16 +248,16 @@ public class ALEPipes {
         else
             hasObserved = false;
 
-        sendAction(act);
+        sendAction(act_a, act_b);
 
         return false;
     }
 
     /** Helper function to send out an action to ALE */
-    public void sendAction(int act) {
+    public void sendAction(int act_a, int act_b) {
         // Send player A's action, as well as the NOOP for player B
         // Format: <player_a_action>,<player_b_action>\n
-        out.printf("%d,%d\n", act, 18);
+        out.printf("%d,%d\n", act_a, act_b);
         out.flush();
     }
 

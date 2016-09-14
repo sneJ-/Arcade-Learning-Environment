@@ -22,13 +22,14 @@ import ale.io.RLData;
 import ale.movie.MovieGenerator;
 import ale.screen.ScreenMatrix;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 /** An 'agent' meant to be controlled by a human. Used to play the game and
  *   demonstrate the GUI.
  *
  * @author Marc G. Bellemare
  */
-public class HumanAgent extends AbstractAgent {
+public class HumanAgentRandom extends AbstractAgent {
     /** Whether we want to export screen data to disk */
     protected boolean exportFrames;
     /** The base filename used for exporting screen data. The files will be name
@@ -55,16 +56,20 @@ public class HumanAgent extends AbstractAgent {
     protected boolean displayedGameOver = false;
     
     protected int numFramesToDisplayRewardFor = framesPerSecond * 1;
+    
+    private Random randomGeneratorPlayerB;
 
-    public HumanAgent() {
+    public HumanAgentRandom() {
         super();
     }
 
-    public HumanAgent(boolean useGUI, String namedPipesName, boolean exportFrames) {
+    public HumanAgentRandom(boolean useGUI, String namedPipesName, boolean exportFrames) {
         super(useGUI, namedPipesName);
 
         this.exportFrames = exportFrames;
 
+        this.randomGeneratorPlayerB = new Random();
+        
         // If we want to export frames, we also need to create the relevant object
         if (this.exportFrames) {
             movieGenerator = new MovieGenerator(exportFrameBasename);
@@ -135,8 +140,10 @@ public class HumanAgent extends AbstractAgent {
     
     @Override
     public int selectActionB() {
-    	//Return 18 (noop) for player B
-        return 18;
+    	//returns a random number between 18(0) and 35(17)
+    	//int action = 18+randomGeneratorPlayerB.nextInt(18);
+	int action = 18+randomGeneratorPlayerB.nextInt(2);
+        return action;
     }
     
     @Override
@@ -206,7 +213,7 @@ public class HumanAgent extends AbstractAgent {
                 doneParsing = true;
         }
 
-        HumanAgent agent = new HumanAgent(useGUI, namedPipesName, exportFrames);
+        HumanAgentRandom agent = new HumanAgentRandom(useGUI, namedPipesName, exportFrames);
 
         agent.run();
     }
@@ -216,8 +223,8 @@ public class HumanAgent extends AbstractAgent {
      */
     public static void printUsage() {
         System.err.println ("Invalid argument.");
-        System.err.println ("Usage: java HumanAgent [-nogui] [-named_pipes filename] [-export_frames]\n");
-        System.err.println ("Example: java HumanAgent -named_pipes /tmp/ale_fifo_");
+        System.err.println ("Usage: java HumanAgentRandom [-nogui] [-named_pipes filename] [-export_frames]\n");
+        System.err.println ("Example: java HumanAgentRandom -named_pipes /tmp/ale_fifo_");
         System.err.println ("  Will start an agent that communicates with ALE via named pipes \n"+
                 "  /tmp/ale_fifo_in and /tmp/ale_fifo_out");
     }
