@@ -28,9 +28,13 @@ Quick start
 ===============================
 
 Just execute ./build.sh as root.
+
 It will install the main dependencies and python module as described below.
+
 It further will compile a sample 2 player Java agent and execute the boxing game.
+
 [TODO] Implement select game mode button to ALE two select 2 player mode of boxing
+
 [TODO] Change the sample Java agent to select the 2 player mode
 
 -------------------------------
