@@ -3,7 +3,9 @@
 # Arcade-Learning-Environment
 
 do your changes in doc/examples/sharedLibraryInterfaceWithModesExample.cpp
+
 ./build.sh
+
 commit and push if the changes were good
 
 -----------------------------------------------------------------------------------------------
