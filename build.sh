@@ -18,9 +18,6 @@ ant jar
 
 #run sample simulation
 cd ../../..
-mkfifo ale_fifo_in
-mkfifo ale_fifo_out
-./ale -game_controller fifo_named roms/boxing.bin &
-cd doc/java-agent/code
-java -cp dist/ALEJavaAgent.jar ale.agents.HumanAgentRandom -named_pipes ../../../ale_fifo_
+cd doc/examples
+./sharedLibraryInterfaceWithModesExample ../../roms/boxing.bin
 
