@@ -55,16 +55,18 @@ int main(int argc, char** argv) {
 
     // Get the vector of legal actions
     ActionVect legal_actions = ale.getLegalActionSet();
+    ActionVect legal_actionsB = ale.getLegalActionSetB();
 
     // Play 10 episodes
     for (int i = 0; i < modes.size(); i++){
-	ale.setMode(0);
+	ale.setMode(1);
         
         float totalReward = 0;
         while (!ale.game_over()) {
             Action a = legal_actions[rand() % legal_actions.size()];
+	    Action b = legal_actionsB[rand() % legal_actionsB.size()];
             // Apply the action and get the resulting reward
-            float reward = ale.act(a);
+            float reward = ale.actAB(a,b);
             totalReward += reward;
          }
          cout << "Episode ended with score: " << totalReward << endl;

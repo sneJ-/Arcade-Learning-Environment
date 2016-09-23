@@ -43,6 +43,16 @@ ActionVect RomSettings::getAllActions() {
   return actions;
 }
 
+ActionVect RomSettings::getAllActionsB() {
+  ActionVect actions;
+  for (int a = PLAYER_B_NOOP; a <= PLAYER_B_DOWNLEFTFIRE; a++) {
+    if (isLegal((Action)a)) {
+      actions.push_back((Action)a);
+    }
+  }
+  return actions;
+}
+
 ActionVect RomSettings::getStartingActions() {
     return ActionVect();
 }

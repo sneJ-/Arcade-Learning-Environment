@@ -218,6 +218,23 @@ reward_t ALEInterface::act(Action action) {
   return reward;
 }
 
+// Applies an action to the game and returns the reward. It is the
+// user's responsibility to check if the game has ended and reset
+// when necessary - this method will keep pressing buttons on the
+// game over screen.
+reward_t ALEInterface::actAB(Action action, Action actionb) {
+  reward_t reward = environment->act(action, actionb);
+  if (theOSystem->p_display_screen != NULL) {
+    theOSystem->p_display_screen->display_screen();
+    while (theOSystem->p_display_screen->manual_control_engaged()) {
+      Action user_action = theOSystem->p_display_screen->getUserAction();
+      reward += environment->act(user_action, PLAYER_B_NOOP);
+      theOSystem->p_display_screen->display_screen();
+    }
+  }
+  return reward;
+}
+
 // Returns the vector of modes available for the current game.
 // This should be called only after the rom is loaded.
 ModeVect ALEInterface::getAvailableModes(){
@@ -256,6 +273,15 @@ ActionVect ALEInterface::getLegalActionSet() {
     throw std::runtime_error("ROM not set");
   }
   return romSettings->getAllActions();
+}
+
+// Returns the vector of legal actions. This should be called only
+// after the rom is loaded.
+ActionVect ALEInterface::getLegalActionSetB() {
+  if (!romSettings.get()){
+    throw std::runtime_error("ROM not set");
+  }
+  return romSettings->getAllActionsB();
 }
 
 // Returns the vector of the minimal set of actions needed to play

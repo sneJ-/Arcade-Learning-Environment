@@ -163,6 +163,10 @@ ModeVect BoxingSettings::getAvailableModes(){
 // set the mode of the game
 // the given mode must be one returned by the previous function
 void BoxingSettings::setMode(game_mode_t m, System &system, StellaEnvironment& environment){
-   environment.pressSelect(1); 
-   environment.soft_reset();
+   if(m == 1){
+      environment.pressSelect(1); 
+      environment.soft_reset();
+   }else{
+      environment.soft_reset();
+   }
 }

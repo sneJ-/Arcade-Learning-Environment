@@ -93,6 +93,8 @@ public:
 
     // Returns the set of all legal actions
     ActionVect getAllActions();
+    // Returns the set of all legal actions
+    ActionVect getAllActionsB();
 
     // Returns a list of actions that are required to start the game.
     // By default this is an empty list.

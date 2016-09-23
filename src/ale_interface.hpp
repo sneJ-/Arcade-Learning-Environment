@@ -80,6 +80,7 @@ public:
   // when necessary - this method will keep pressing buttons on the
   // game over screen.
   reward_t act(Action action);
+  reward_t actAB(Action action, Action actionb);
 
   // Indicates if the game has ended.
   bool game_over();
@@ -108,6 +109,10 @@ public:
   // Returns the vector of legal actions. This should be called only
   // after the rom is loaded.
   ActionVect getLegalActionSet();
+
+  // Returns the vector of legal actions. This should be called only
+  // after the rom is loaded.
+  ActionVect getLegalActionSetB();
 
   // Returns the vector of the minimal set of actions needed to play
   // the game.
