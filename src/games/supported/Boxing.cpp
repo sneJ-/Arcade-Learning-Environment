@@ -45,6 +45,9 @@ void BoxingSettings::step(const System& system) {
     m_reward = score - m_score;
     m_score = score;
 
+    // handle initialisation bug (reward of 108)
+    if (m_reward == 108) m_reward = 0;
+
     // update terminal status
     // if either is KO, the game is over
     if (my_score == 100 || oppt_score == 100) {

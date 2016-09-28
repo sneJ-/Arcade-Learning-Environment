@@ -19,5 +19,6 @@ ant jar
 #run sample simulation
 cd ../../..
 cd doc/examples
-./sharedLibraryInterfaceWithModesExample ../../roms/boxing.bin
+make twoPlayerAI
+./twoPlayerAI ../../roms/boxing.bin
 

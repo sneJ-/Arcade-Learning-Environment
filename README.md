@@ -2,7 +2,7 @@
 
 # Arcade-Learning-Environment
 
-do your changes in doc/examples/sharedLibraryInterfaceWithModesExample.cpp
+do your changes in doc/examples/twoPlayerAI.cpp
 
 ./build.sh
 
