@@ -4,7 +4,7 @@
 
 do your changes in doc/examples/twoPlayerAI.cpp
 
-./build.sh
+./build.sh [-i]
 
 commit and push if the changes were good
 
