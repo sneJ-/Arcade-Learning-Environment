@@ -35,6 +35,8 @@ ale_lib.loadROM.argtypes = [c_void_p, c_char_p]
 ale_lib.loadROM.restype = None
 ale_lib.act.argtypes = [c_void_p, c_int]
 ale_lib.act.restype = c_int
+ale_lib.actAB.argtypes = [c_void_p, c_int, c_int]
+ale_lib.actAB.restype = c_int
 ale_lib.game_over.argtypes = [c_void_p]
 ale_lib.game_over.restype = c_bool
 ale_lib.reset_game.argtypes = [c_void_p]
@@ -55,6 +57,10 @@ ale_lib.getLegalActionSet.argtypes = [c_void_p, c_void_p]
 ale_lib.getLegalActionSet.restype = None
 ale_lib.getLegalActionSize.argtypes = [c_void_p]
 ale_lib.getLegalActionSize.restype = c_int
+ale_lib.getLegalActionSetB.argtypes = [c_void_p, c_void_p]
+ale_lib.getLegalActionSetB.restype = None
+ale_lib.getLegalActionSizeB.argtypes = [c_void_p]
+ale_lib.getLegalActionSizeB.restype = c_int
 ale_lib.getMinimalActionSet.argtypes = [c_void_p, c_void_p]
 ale_lib.getMinimalActionSet.restype = None
 ale_lib.getMinimalActionSize.argtypes = [c_void_p]
@@ -130,6 +136,9 @@ class ALEInterface(object):
     def act(self, action):
         return ale_lib.act(self.obj, int(action))
 
+    def actAB(self, actionA, actionB):
+        return ale_lib.actAB(self.obj, int(actionA), int(actionB))
+
     def game_over(self):
         return ale_lib.game_over(self.obj)
 
@@ -158,6 +167,12 @@ class ALEInterface(object):
         act_size = ale_lib.getLegalActionSize(self.obj)
         act = np.zeros((act_size), dtype=np.intc)
         ale_lib.getLegalActionSet(self.obj, as_ctypes(act))
+        return act
+
+    def getLegalActionSetB(self):
+        act_size = ale_lib.getLegalActionSizeB(self.obj)
+        act = np.zeros((act_size), dtype=np.intc)
+        ale_lib.getLegalActionSetB(self.obj, as_ctypes(act))
         return act
 
     def getMinimalActionSet(self):

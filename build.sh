@@ -20,7 +20,7 @@ sudo make -j 4
 
 #set up python interface
 cd ..
-sudo -H pip install .
+sudo -H pip --upgrade --force-reinstall install .
 
 #compile Java agents
 cd doc/java-agent/code

@@ -17,6 +17,7 @@ extern "C" {
   void setFloat(ALEInterface *ale,const char *key,float value){ale->setFloat(key,value);}
   void loadROM(ALEInterface *ale,const char *rom_file){ale->loadROM(rom_file);}
   int act(ALEInterface *ale,int action){return ale->act((Action)action);}
+  int actAB(ALEInterface *ale,int actionA,int actionB){return ale->actAB((Action)actionA,(Action)actionB);}
   bool game_over(ALEInterface *ale){return ale->game_over();}
   void reset_game(ALEInterface *ale){ale->reset_game();}
   void getAvailableModes(ALEInterface *ale,int *availableModes){
@@ -42,6 +43,13 @@ extern "C" {
     }
   }
   int getLegalActionSize(ALEInterface *ale){return ale->getLegalActionSet().size();}
+  void getLegalActionSetB(ALEInterface *ale,int *actions){
+    ActionVect action_vect = ale->getLegalActionSetB();
+    for(unsigned int i = 0;i < ale->getLegalActionSetB().size();i++){
+      actions[i] = action_vect[i];
+    }
+  }
+  int getLegalActionSizeB(ALEInterface *ale){return ale->getLegalActionSetB().size();}
   void getMinimalActionSet(ALEInterface *ale,int *actions){
     ActionVect action_vect = ale->getMinimalActionSet();
     for(unsigned int i = 0;i < ale->getMinimalActionSet().size();i++){
