@@ -87,7 +87,7 @@ public class RLAgent extends AbstractAgent {
     }
 
     @Override
-    public int selectActionA() {
+    public int selectAction() {
         // If reset is requested, send it
         if (requestReset) {
             firstStep = true;
@@ -98,10 +98,6 @@ public class RLAgent extends AbstractAgent {
         // Otherwise send back the action taken by the learner (see rlStep())
         else
             return learnerAction;
-    }
-    @Override
-    public int selectActionB(){
-    	return 18;
     }
 
     @Override

@@ -98,10 +98,7 @@ void FIFOController::handshake() {
 
   // Read in agent's response
   char in_buffer [1024];
-  if (fgets (in_buffer, sizeof(in_buffer), m_fin) == NULL) {
-    // If The agent hung up, stop the handshake.
-    return;
-  }
+  fgets (in_buffer, sizeof(in_buffer), m_fin);
 
   // Parse response: send_screen, send_ram, <obsolete>, send_RL
   char * token = strtok (in_buffer,",\n");
@@ -235,14 +232,8 @@ void FIFOController::sendRL() {
 void FIFOController::readAction(Action& action_a, Action& action_b) {
   // Read the new action from the pipe, as a comma-separated pair
   char in_buffer[2048];
-  if (fgets (in_buffer, sizeof(in_buffer), m_fin) == NULL) {
-    // If fgets returns NULL, we set the two actions to NOOP here. This is probably because the
-    // other side has hung up. We'll let the process terminate as usual.
-    action_a = PLAYER_A_NOOP;
-    action_b = PLAYER_B_NOOP;
-    return;
-  }
-
+  fgets (in_buffer, sizeof(in_buffer), m_fin);
+ 
   char * token = strtok (in_buffer,",\n");
   action_a = (Action)atoi(token);
 

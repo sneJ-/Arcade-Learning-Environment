@@ -17,8 +17,25 @@ extern "C" {
   void setFloat(ALEInterface *ale,const char *key,float value){ale->setFloat(key,value);}
   void loadROM(ALEInterface *ale,const char *rom_file){ale->loadROM(rom_file);}
   int act(ALEInterface *ale,int action){return ale->act((Action)action);}
+  int actAB(ALEInterface *ale,int actionA,int actionB){return ale->actAB((Action)actionA,(Action)actionB);}
   bool game_over(ALEInterface *ale){return ale->game_over();}
   void reset_game(ALEInterface *ale){ale->reset_game();}
+  void getAvailableModes(ALEInterface *ale,int *availableModes){
+    ModeVect modes_vect = ale->getAvailableModes();
+    for(unsigned int i = 0; i < ale->getAvailableModes().size();i++){
+      availableModes[i] = modes_vect[i];
+    }
+  }
+  int getAvailableModesSize(ALEInterface *ale){return ale->getAvailableModes().size();}
+  void setMode(ALEInterface *ale, int mode){ale->setMode(mode);}
+  void getAvailableDifficulties(ALEInterface *ale,int *availableDifficulties){
+    DifficultyVect difficulties_vect = ale->getAvailableDifficulties();
+    for(unsigned int i = 0; i < ale->getAvailableDifficulties().size();i++){
+      availableDifficulties[i] = difficulties_vect[i];
+    }
+  }
+  int getAvailableDifficultiesSize(ALEInterface *ale){return ale->getAvailableDifficulties().size();}
+  void setDifficulty(ALEInterface *ale, int difficulty){ale->setDifficulty(difficulty);}
   void getLegalActionSet(ALEInterface *ale,int *actions){
     ActionVect action_vect = ale->getLegalActionSet();
     for(unsigned int i = 0;i < ale->getLegalActionSet().size();i++){
@@ -26,6 +43,13 @@ extern "C" {
     }
   }
   int getLegalActionSize(ALEInterface *ale){return ale->getLegalActionSet().size();}
+  void getLegalActionSetB(ALEInterface *ale,int *actions){
+    ActionVect action_vect = ale->getLegalActionSetB();
+    for(unsigned int i = 0;i < ale->getLegalActionSetB().size();i++){
+      actions[i] = action_vect[i];
+    }
+  }
+  int getLegalActionSizeB(ALEInterface *ale){return ale->getLegalActionSetB().size();}
   void getMinimalActionSet(ALEInterface *ale,int *actions){
     ActionVect action_vect = ale->getMinimalActionSet();
     for(unsigned int i = 0;i < ale->getMinimalActionSet().size();i++){
@@ -84,9 +108,6 @@ extern "C" {
   void encodeState(ALEState *state, char *buf, int buf_len);
   int encodeStateLen(ALEState *state);
   ALEState *decodeState(const char *serialized, int len);
-
-  // 0: Info, 1: Warning, 2: Error
-  void setLoggerMode(int mode) { ale::Logger::setMode(ale::Logger::mode(mode)); }
 }
 
 #endif

@@ -31,7 +31,12 @@
 
 QBertSettings::QBertSettings() {
 
-    reset();
+    m_reward   = 0;
+    m_score    = 0;
+    m_terminal = false;
+    // Anything non-0xFF
+    m_last_lives = 2;
+    m_lives      = 4;
 }
 
 
@@ -57,7 +62,7 @@ void QBertSettings::step(const System& system) {
     int livesAsChar = static_cast<char>(lives_value);
 
     if (m_last_lives - 1 == livesAsChar) m_lives--;
-    m_last_lives = livesAsChar;
+    m_last_lives = lives_value;
 
     // update the reward
     // Ignore reward if reset the game via the fire button; otherwise the agent 
@@ -106,7 +111,7 @@ bool QBertSettings::isMinimal(const Action &a) const {
 
 
 /* reset the state of the game */
-void QBertSettings::reset() {
+void QBertSettings::reset(System& system, StellaEnvironment& environment) {
     m_reward   = 0;
     m_score    = 0;
     m_terminal = false;
@@ -133,3 +138,9 @@ void QBertSettings::loadState(Deserializer & ser) {
   m_lives = ser.getInt();
 }
 
+DifficultyVect QBertSettings::getAvailableDifficulties(){
+  DifficultyVect diff;
+  diff.push_back(0);
+  diff.push_back(1);
+  return diff;
+}

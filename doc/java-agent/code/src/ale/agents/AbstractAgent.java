@@ -159,10 +159,9 @@ public abstract class AbstractAgent {
             observe(screen, io.getRAM(), io.getRLData());
 
             // Request an action from the agent
-            int action_a = selectActionA();
-            int action_b = selectActionB();
+            int action = selectAction();
             // Send it back to ALE
-            done = io.act(action_a, action_b);
+            done = io.act(action);
 
             // Ask the agent whether it wants us to pause
             long pauseLength = getPauseLength();
@@ -213,12 +212,11 @@ public abstract class AbstractAgent {
      * @return
      */
     public abstract long getPauseLength();
-    /** Returns the agent's A next action.
+    /** Returns the agent's next action.
      *
      * @return
      */
-    public abstract int selectActionA();
-    public abstract int selectActionB();
+    public abstract int selectAction();
     /** Provides the agent with the latest screen, RAM and RL data.
      * 
      * @param screen

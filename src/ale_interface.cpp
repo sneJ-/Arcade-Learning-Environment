@@ -188,8 +188,9 @@ void ALEInterface::reset_game() {
 }
 
 // Indicates if the game has ended.
-bool ALEInterface::game_over() const {
-  return environment->isTerminal();
+bool ALEInterface::game_over() {
+  return (environment->isTerminal() ||
+          (max_num_frames > 0 && getEpisodeFrameNumber() >= max_num_frames));
 }
 
 // The remaining number of lives.
@@ -217,6 +218,54 @@ reward_t ALEInterface::act(Action action) {
   return reward;
 }
 
+// Applies an action to the game and returns the reward. It is the
+// user's responsibility to check if the game has ended and reset
+// when necessary - this method will keep pressing buttons on the
+// game over screen.
+reward_t ALEInterface::actAB(Action action, Action actionb) {
+  reward_t reward = environment->act(action, actionb);
+  if (theOSystem->p_display_screen != NULL) {
+    theOSystem->p_display_screen->display_screen();
+    while (theOSystem->p_display_screen->manual_control_engaged()) {
+      Action user_action = theOSystem->p_display_screen->getUserAction();
+      reward += environment->act(user_action, PLAYER_B_NOOP);
+      theOSystem->p_display_screen->display_screen();
+    }
+  }
+  return reward;
+}
+
+// Returns the vector of modes available for the current game.
+// This should be called only after the rom is loaded.
+ModeVect ALEInterface::getAvailableModes(){
+  return romSettings->getAvailableModes();
+}
+
+// Sets the mode of the game.
+// The mode must be an available mode.
+// This should be called only after the rom is loaded.
+void ALEInterface::setMode(game_mode_t m){
+  romSettings->setMode(m,theOSystem->console().system(),*(environment.get()));
+}
+
+// Sets the difficulty of the game.
+// The difficulty must be an available mode.
+// This should be called only after the rom is loaded.
+void ALEInterface::setDifficulty(difficulty_t m){
+  DifficultyVect available = romSettings->getAvailableDifficulties();
+  if(find(available.begin(), available.end(), m) != available.end()){
+    environment->setDifficulty(m);
+    } else {
+      throw std::runtime_error("This difficulty doesn't currently exist for this game");
+    }
+}
+
+//Returns the vector of difficulties available for the current game.
+//This should be called only after the rom is loaded.
+ModeVect ALEInterface::getAvailableDifficulties(){
+    return romSettings->getAvailableDifficulties();
+}
+
 // Returns the vector of legal actions. This should be called only
 // after the rom is loaded.
 ActionVect ALEInterface::getLegalActionSet() {
@@ -224,6 +273,15 @@ ActionVect ALEInterface::getLegalActionSet() {
     throw std::runtime_error("ROM not set");
   }
   return romSettings->getAllActions();
+}
+
+// Returns the vector of legal actions. This should be called only
+// after the rom is loaded.
+ActionVect ALEInterface::getLegalActionSetB() {
+  if (!romSettings.get()){
+    throw std::runtime_error("ROM not set");
+  }
+  return romSettings->getAllActionsB();
 }
 
 // Returns the vector of the minimal set of actions needed to play
@@ -241,37 +299,13 @@ int ALEInterface::getFrameNumber() {
 }
 
 // Returns the frame number since the start of the current episode
-int ALEInterface::getEpisodeFrameNumber() const {
+int ALEInterface::getEpisodeFrameNumber() {
   return environment->getEpisodeFrameNumber();
 }
 
 // Returns the current game screen
 const ALEScreen& ALEInterface::getScreen() {
   return environment->getScreen();
-}
-
-//This method should receive an empty vector to fill it with
-//the grayscale colours
-void ALEInterface::getScreenGrayscale(std::vector<unsigned char>& grayscale_output_buffer){
-  size_t w = environment->getScreen().width();
-  size_t h = environment->getScreen().height();
-  size_t screen_size = w*h;
-  
-  pixel_t *ale_screen_data = environment->getScreen().getArray();
-  theOSystem->colourPalette().applyPaletteGrayscale(grayscale_output_buffer, ale_screen_data, screen_size);
-}
-
-//This method should receive a vector to fill it with
-//the RGB colours. The first positions contain the red colours,
-//followed by the green colours and then the blue colours
-void ALEInterface::getScreenRGB(std::vector<unsigned char>& output_rgb_buffer){
-  size_t w = environment->getScreen().width();
-  size_t h = environment->getScreen().height();
-  size_t screen_size = w*h;
-
-  pixel_t *ale_screen_data = environment->getScreen().getArray();
-
-  theOSystem->colourPalette().applyPaletteRGB(output_rgb_buffer, ale_screen_data, screen_size * 3);
 }
 
 // Returns the current RAM content

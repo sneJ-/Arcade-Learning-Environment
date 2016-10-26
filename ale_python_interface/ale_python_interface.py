@@ -2,7 +2,6 @@
 # Author: Ben Goodrich
 # This directly implements a python version of the arcade learning
 # environment interface.
-__all__ = ['ALEInterface']
 
 from ctypes import *
 import numpy as np
@@ -36,14 +35,32 @@ ale_lib.loadROM.argtypes = [c_void_p, c_char_p]
 ale_lib.loadROM.restype = None
 ale_lib.act.argtypes = [c_void_p, c_int]
 ale_lib.act.restype = c_int
+ale_lib.actAB.argtypes = [c_void_p, c_int, c_int]
+ale_lib.actAB.restype = c_int
 ale_lib.game_over.argtypes = [c_void_p]
 ale_lib.game_over.restype = c_bool
 ale_lib.reset_game.argtypes = [c_void_p]
 ale_lib.reset_game.restype = None
+ale_lib.getAvailableModes.argtypes = [c_void_p, c_void_p]
+ale_lib.getAvailableModes.restype = None
+ale_lib.getAvailableModesSize.argtypes = [c_void_p]
+ale_lib.getAvailableModesSize.restype = c_int
+ale_lib.setMode.argtypes = [c_void_p, c_int]
+ale_lib.setMode.restype = None
+ale_lib.getAvailableDifficulties.argtypes = [c_void_p, c_void_p]
+ale_lib.getAvailableDifficulties.restype = None
+ale_lib.getAvailableDifficultiesSize.argtypes = [c_void_p]
+ale_lib.getAvailableDifficultiesSize.restype = c_int
+ale_lib.setDifficulty.argtypes = [c_void_p, c_int]
+ale_lib.setDifficulty.restype = None
 ale_lib.getLegalActionSet.argtypes = [c_void_p, c_void_p]
 ale_lib.getLegalActionSet.restype = None
 ale_lib.getLegalActionSize.argtypes = [c_void_p]
 ale_lib.getLegalActionSize.restype = c_int
+ale_lib.getLegalActionSetB.argtypes = [c_void_p, c_void_p]
+ale_lib.getLegalActionSetB.restype = None
+ale_lib.getLegalActionSizeB.argtypes = [c_void_p]
+ale_lib.getLegalActionSizeB.restype = c_int
 ale_lib.getMinimalActionSet.argtypes = [c_void_p, c_void_p]
 ale_lib.getMinimalActionSet.restype = None
 ale_lib.getMinimalActionSize.argtypes = [c_void_p]
@@ -90,17 +107,8 @@ ale_lib.encodeStateLen.argtypes = [c_void_p]
 ale_lib.encodeStateLen.restype = c_int
 ale_lib.decodeState.argtypes = [c_void_p, c_int]
 ale_lib.decodeState.restype = c_void_p
-ale_lib.setLoggerMode.argtypes = [c_int]
-ale_lib.setLoggerMode.restype = None
 
 class ALEInterface(object):
-    # Logger enum
-    class Logger:
-        Info = 0
-        Warning = 1
-        Error = 2
-
-
     def __init__(self):
         self.obj = ale_lib.ALE_new()
 
@@ -128,16 +136,43 @@ class ALEInterface(object):
     def act(self, action):
         return ale_lib.act(self.obj, int(action))
 
+    def actAB(self, actionA, actionB):
+        return ale_lib.actAB(self.obj, int(actionA), int(actionB))
+
     def game_over(self):
         return ale_lib.game_over(self.obj)
 
     def reset_game(self):
         ale_lib.reset_game(self.obj)
 
+    def getAvailableModes(self):
+        modes_size = ale_lib.getAvailableModesSize(self.obj)
+        modes = np.zeros((modes_size), dtype=np.intc)
+        ale_lib.getAvailableModes(self.obj, as_ctypes(modes))
+        return modes
+
+    def setMode(self, mode):
+        ale_lib.setMode(self.obj, mode)
+
+    def getAvailableDifficulties(self):
+        difficulties_size = ale_lib.getAvailableDifficultiesSize(self.obj)
+        difficulties = np.zeros((difficulties_size), dtype=np.intc)
+        ale_lib.getAvailableDifficulties(self.obj, as_ctypes(difficulties))
+        return difficulties
+
+    def setDifficulty(self, difficulty):
+        ale_lib.setDifficulty(self.obj, difficulty)
+
     def getLegalActionSet(self):
         act_size = ale_lib.getLegalActionSize(self.obj)
         act = np.zeros((act_size), dtype=np.intc)
         ale_lib.getLegalActionSet(self.obj, as_ctypes(act))
+        return act
+
+    def getLegalActionSetB(self):
+        act_size = ale_lib.getLegalActionSizeB(self.obj)
+        act = np.zeros((act_size), dtype=np.intc)
+        ale_lib.getLegalActionSetB(self.obj, as_ctypes(act))
         return act
 
     def getMinimalActionSet(self):
@@ -276,10 +311,3 @@ class ALEInterface(object):
 
     def __del__(self):
         ale_lib.ALE_del(self.obj)
-
-    @staticmethod
-    def setLoggerMode(mode):
-        dic = {'info': 0, 'warning': 1, 'error': 2}
-        mode = dic.get(mode, mode)
-        assert mode in [0, 1, 2], "Invalid Mode! Mode must be one of 0: info, 1: warning, 2: error"
-        ale_lib.setLoggerMode(mode)

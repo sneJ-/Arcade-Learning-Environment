@@ -34,15 +34,12 @@
 #include "supported/CrazyClimber.hpp"
 #include "supported/Defender.hpp"
 #include "supported/DemonAttack.hpp"
-#include "supported/DonkeyKong.hpp"
 #include "supported/DoubleDunk.hpp"
 #include "supported/ElevatorAction.hpp"
 #include "supported/Enduro.hpp"
 #include "supported/FishingDerby.hpp"
 #include "supported/Freeway.hpp"
-#include "supported/Frogger.hpp"
 #include "supported/Frostbite.hpp"
-#include "supported/Galaxian.hpp"
 #include "supported/Gopher.hpp"
 #include "supported/Gravitar.hpp"
 #include "supported/Hero.hpp"
@@ -50,15 +47,9 @@
 #include "supported/JamesBond.hpp"
 #include "supported/JourneyEscape.hpp"
 #include "supported/Kangaroo.hpp"
-#include "supported/Koolaid.hpp"
-#include "supported/KeystoneKapers.hpp"
-#include "supported/Kingkong.hpp"
 #include "supported/Krull.hpp"
 #include "supported/KungFuMaster.hpp"
-#include "supported/LaserGates.hpp"
-#include "supported/LostLuggage.hpp"
 #include "supported/MontezumaRevenge.hpp"
-#include "supported/MrDo.hpp"
 #include "supported/MsPacman.hpp"
 #include "supported/NameThisGame.hpp"
 #include "supported/Phoenix.hpp"
@@ -71,16 +62,14 @@
 #include "supported/RoadRunner.hpp"
 #include "supported/RoboTank.hpp"
 #include "supported/Seaquest.hpp"
-#include "supported/SirLancelot.hpp"
 #include "supported/Skiing.hpp"
 #include "supported/Solaris.hpp"
 #include "supported/SpaceInvaders.hpp"
 #include "supported/StarGunner.hpp"
+#include "supported/SuperBreakout.hpp"
 #include "supported/Tennis.hpp"
 #include "supported/Tetris.hpp"
 #include "supported/TimePilot.hpp"
-#include "supported/Turmoil.hpp"
-#include "supported/Trondead.hpp"
 #include "supported/Tutankham.hpp"
 #include "supported/UpNDown.hpp"
 #include "supported/Venture.hpp"
@@ -112,15 +101,12 @@ static const RomSettings *roms[]  = {
     new CrazyClimberSettings(),
     new DefenderSettings(),
     new DemonAttackSettings(),
-    new DonkeyKongSettings(),
     new DoubleDunkSettings(),
     new ElevatorActionSettings(),
     new EnduroSettings(),
     new FishingDerbySettings(),
     new FreewaySettings(),
-    new FroggerSettings(),
     new FrostbiteSettings(),
-    new GalaxianSettings(),
     new GopherSettings(),
     new GravitarSettings(),
     new HeroSettings(),
@@ -128,15 +114,9 @@ static const RomSettings *roms[]  = {
     new JamesBondSettings(),
     new JourneyEscapeSettings(),
     new KangarooSettings(),
-    new KoolaidSettings(),
-    new KeystoneKapersSettings(),
-    new KingkongSettings(),
     new KrullSettings(),
     new KungFuMasterSettings(),
-    new LaserGatesSettings(),
-    new LostLuggageSettings(),
     new MontezumaRevengeSettings(),
-    new MrDoSettings(),
     new MsPacmanSettings(),
     new NameThisGameSettings(),
     new PhoenixSettings(),
@@ -149,16 +129,14 @@ static const RomSettings *roms[]  = {
     new RoadRunnerSettings(),
     new RoboTankSettings(),
     new SeaquestSettings(),
-    new SirLancelotSettings(),
     new SkiingSettings(),
     new SolarisSettings(),
     new SpaceInvadersSettings(),
     new StarGunnerSettings(),
+    new SuperBreakoutSettings(),
     new TennisSettings(),
     new TetrisSettings(),
     new TimePilotSettings(),
-    new TurmoilSettings(),
-    new TrondeadSettings(),
     new TutankhamSettings(),
     new UpNDownSettings(),
     new VentureSettings(),

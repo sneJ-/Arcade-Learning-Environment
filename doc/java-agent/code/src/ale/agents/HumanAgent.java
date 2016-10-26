@@ -126,17 +126,11 @@ public class HumanAgent extends AbstractAgent {
     }
 
     @Override
-    public int selectActionA() {
+    public int selectAction() {
         // Obtain the action from the UI
         int action = ui.getKeyboardAction();
 
         return action;
-    }
-    
-    @Override
-    public int selectActionB() {
-    	//Return 18 (noop) for player B
-        return 18;
     }
     
     @Override

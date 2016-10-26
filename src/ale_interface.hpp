@@ -45,7 +45,7 @@
 #include <string>
 #include <memory>
 
-static const std::string Version = "0.5.1";
+static const std::string Version = "0.5.0";
 
 /**
    This class interfaces ALE with external code for controlling agents.
@@ -80,16 +80,39 @@ public:
   // when necessary - this method will keep pressing buttons on the
   // game over screen.
   reward_t act(Action action);
+  reward_t actAB(Action action, Action actionb);
 
   // Indicates if the game has ended.
-  bool game_over() const;
+  bool game_over();
 
   // Resets the game, but not the full system.
   void reset_game();
 
+  // Returns the vector of modes available for the current game.
+  // This should be called only after the rom is loaded.
+  ModeVect getAvailableModes();
+
+  // Sets the mode of the game.
+  // The mode must be an available mode (otherwise it throws an exception).
+  // This should be called only after the rom is loaded.
+  void setMode(game_mode_t m);
+
+  //Returns the vector of difficulties available for the current game.
+  //This should be called only after the rom is loaded.
+  DifficultyVect getAvailableDifficulties();
+
+  // Sets the difficulty of the game.
+  // The difficulty must be an available mode (otherwise it throws an exception).
+  // This should be called only after the rom is loaded.
+  void setDifficulty(difficulty_t m);
+
   // Returns the vector of legal actions. This should be called only
   // after the rom is loaded.
   ActionVect getLegalActionSet();
+
+  // Returns the vector of legal actions. This should be called only
+  // after the rom is loaded.
+  ActionVect getLegalActionSetB();
 
   // Returns the vector of the minimal set of actions needed to play
   // the game.
@@ -102,19 +125,10 @@ public:
   const int lives();
 
   // Returns the frame number since the start of the current episode
-  int getEpisodeFrameNumber() const;
+  int getEpisodeFrameNumber();
 
   // Returns the current game screen
   const ALEScreen &getScreen();
-
-  //This method should receive an empty vector to fill it with
-  //the grayscale colours
-  void getScreenGrayscale(std::vector<unsigned char>& grayscale_output_buffer);
-
-  //This method should receive a vector to fill it with
-  //the RGB colours. The first positions contain the red colours,
-  //followed by the green colours and then the blue colours
-  void getScreenRGB(std::vector<unsigned char>& output_rgb_buffer);
 
   // Returns the current RAM content
   const ALERAM &getRAM();

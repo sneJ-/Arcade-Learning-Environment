@@ -16,7 +16,9 @@
 
 BoxingSettings::BoxingSettings() {
 
-    reset();
+    m_reward   = 0;
+    m_score    = 0;
+    m_terminal = false;
 }
 
 
@@ -42,6 +44,9 @@ void BoxingSettings::step(const System& system) {
     reward_t score = my_score - oppt_score;
     m_reward = score - m_score;
     m_score = score;
+
+    // handle initialisation bug (reward of 108)
+    if (m_reward == 108) m_reward = 0;
 
     // update terminal status
     // if either is KO, the game is over
@@ -92,6 +97,24 @@ bool BoxingSettings::isMinimal(const Action &a) const {
         case PLAYER_A_UPLEFTFIRE:
         case PLAYER_A_DOWNRIGHTFIRE:
         case PLAYER_A_DOWNLEFTFIRE:
+	case PLAYER_B_NOOP:
+        case PLAYER_B_FIRE:
+        case PLAYER_B_UP:
+        case PLAYER_B_RIGHT:
+        case PLAYER_B_LEFT:
+        case PLAYER_B_DOWN:
+        case PLAYER_B_UPRIGHT:
+        case PLAYER_B_UPLEFT:
+        case PLAYER_B_DOWNRIGHT:
+        case PLAYER_B_DOWNLEFT:
+        case PLAYER_B_UPFIRE:
+        case PLAYER_B_RIGHTFIRE:
+        case PLAYER_B_LEFTFIRE:
+        case PLAYER_B_DOWNFIRE:
+        case PLAYER_B_UPRIGHTFIRE:
+        case PLAYER_B_UPLEFTFIRE:
+        case PLAYER_B_DOWNRIGHTFIRE:
+        case PLAYER_B_DOWNLEFTFIRE:
             return true;
         default:
             return false;
@@ -100,7 +123,7 @@ bool BoxingSettings::isMinimal(const Action &a) const {
 
 
 /* reset the state of the game */
-void BoxingSettings::reset() {
+void BoxingSettings::reset(System& system, StellaEnvironment& environment) {
     
     m_reward   = 0;
     m_score    = 0;
@@ -123,3 +146,30 @@ void BoxingSettings::loadState(Deserializer & ser) {
   m_terminal = ser.getBool();
 }
 
+DifficultyVect BoxingSettings::getAvailableDifficulties(){
+    DifficultyVect diff;
+    diff.push_back(0);
+    diff.push_back(1);
+    diff.push_back(2);
+    diff.push_back(3);
+    return diff;   
+}
+
+// returns a list of mode that the game can be played in
+ModeVect BoxingSettings::getAvailableModes(){
+    ModeVect modes;
+    modes.push_back(0);
+    modes.push_back(1);    
+    return modes;
+}
+
+// set the mode of the game
+// the given mode must be one returned by the previous function
+void BoxingSettings::setMode(game_mode_t m, System &system, StellaEnvironment& environment){
+   if(m == 1){
+      environment.pressSelect(1); 
+      environment.soft_reset();
+   }else{
+      environment.soft_reset();
+   }
+}

@@ -1,26 +1,23 @@
-#!/bin/sh
+#!/bin/bash
 
-#install main ALE dependencies
-apt-get install libsdl1.2-dev libsdl-gfx1.2-dev libsdl-image1.2-dev cmake -y
+if [ $1 == "-i" ]
+then
+	#install main ALE dependencies
+	sudo add-apt-repository universe 
+	sudo apt-get install libsdl1.2-dev libsdl-gfx1.2-dev libsdl-image1.2-dev cmake python-pip ant -y
+	sudo -H pip install numpy
+fi
 
 #build ALE
 mkdir build && cd build
-cmake -DUSE_SDL=ON -DUSE_RLGLUE=OFF -DBUILD_EXAMPLES=ON ..
-make -j 4
+sudo cmake -DUSE_SDL=ON -DUSE_RLGLUE=OFF -DBUILD_EXAMPLES=ON ..
+sudo make -j 4
 
 #set up python interface
 cd ..
-pip install .
+sudo -H pip install --upgrade --force-reinstall .
 
 #compile Java agents
 cd doc/java-agent/code
 ant jar
-
-#run sample simulation
-cd ../../..
-mkfifo ale_fifo_in
-mkfifo ale_fifo_out
-./ale -game_controller fifo_named roms/boxing.bin &
-cd doc/java-agent/code
-java -cp dist/ALEJavaAgent.jar ale.agents.HumanAgentRandom -named_pipes ../../../ale_fifo_
 
