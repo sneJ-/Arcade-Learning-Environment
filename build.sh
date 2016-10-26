@@ -5,12 +5,6 @@ then
 	#install main ALE dependencies
 	sudo add-apt-repository universe 
 	sudo apt-get install libsdl1.2-dev libsdl-gfx1.2-dev libsdl-image1.2-dev cmake python-pip ant -y
-
-	#install dqn dependencies
-	sudo -H pip install petname imageio
-	#export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0rc0-cp27-none-linux_x86_64.whl
-	export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.9.0-cp27-none-linux_x86_64.whl
-	sudo -H pip install --upgrade $TF_BINARY_URL
 fi
 
 #build ALE
@@ -25,11 +19,4 @@ sudo -H pip install --upgrade --force-reinstall .
 #compile Java agents
 cd doc/java-agent/code
 ant jar
-
-#run sample simulation
-cd ../../..
-cd doc/examples
-make twoPlayerAI
-./twoPlayerAI ../../roms/boxing.bin
-
 

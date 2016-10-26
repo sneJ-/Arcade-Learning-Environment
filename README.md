@@ -1,12 +1,16 @@
 <img align="right" src="doc/manual/figures/ale.gif" width=50>
 
-# Arcade-Learning-Environment
+# Arcade-Learning-Environment for two Agents
 
-do your changes in doc/examples/twoPlayerAI.cpp
+to install ALE execute:
 
 ./build.sh [-i]
 
-commit and push if the changes were good
+Option -i is for automatically installing the Ubuntu dependencies.
+
+Afterwards you can use ALE within Python.
+
+An example is doc/example/twoPlayerAI.py.
 
 -----------------------------------------------------------------------------------------------
 
