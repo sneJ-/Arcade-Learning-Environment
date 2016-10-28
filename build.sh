@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $1 == "-i" ]
+if [ "$1" == "-i" ]
 then
 	#install main ALE dependencies
 	sudo add-apt-repository universe 
@@ -9,8 +9,12 @@ then
 fi
 
 #build ALE
-mkdir build && cd build
-sudo cmake -DUSE_SDL=ON -DUSE_RLGLUE=OFF -DBUILD_EXAMPLES=ON ..
+if [ -d "build" ]; then
+    cd build
+else
+    mkdir build && cd build
+    sudo cmake -DUSE_SDL=ON -DUSE_RLGLUE=OFF -DBUILD_EXAMPLES=ON ..
+fi
 sudo make -j 4
 
 #set up python interface
@@ -20,4 +24,3 @@ sudo -H pip install --upgrade --force-reinstall .
 #compile Java agents
 cd doc/java-agent/code
 ant jar
-
