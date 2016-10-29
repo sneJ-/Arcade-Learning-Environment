@@ -13,8 +13,8 @@ if [ -d "build" ]; then
     cd build
 else
     mkdir build && cd build
-    sudo cmake -DUSE_SDL=ON -DUSE_RLGLUE=OFF -DBUILD_EXAMPLES=ON ..
 fi
+sudo cmake -DUSE_SDL=ON -DUSE_RLGLUE=OFF -DBUILD_EXAMPLES=ON ..
 sudo make -j 4
 
 #set up python interface

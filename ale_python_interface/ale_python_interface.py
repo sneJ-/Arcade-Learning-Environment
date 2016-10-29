@@ -63,8 +63,12 @@ ale_lib.getLegalActionSizeB.argtypes = [c_void_p]
 ale_lib.getLegalActionSizeB.restype = c_int
 ale_lib.getMinimalActionSet.argtypes = [c_void_p, c_void_p]
 ale_lib.getMinimalActionSet.restype = None
+ale_lib.getMinimalActionSetB.argtypes = [c_void_p, c_void_p]
+ale_lib.getMinimalActionSetB.restype = None
 ale_lib.getMinimalActionSize.argtypes = [c_void_p]
 ale_lib.getMinimalActionSize.restype = c_int
+ale_lib.getMinimalActionSizeB.argtypes = [c_void_p]
+ale_lib.getMinimalActionSizeB.restype = c_int
 ale_lib.getFrameNumber.argtypes = [c_void_p]
 ale_lib.getFrameNumber.restype = c_int
 ale_lib.lives.argtypes = [c_void_p]
@@ -179,6 +183,12 @@ class ALEInterface(object):
         act_size = ale_lib.getMinimalActionSize(self.obj)
         act = np.zeros((act_size), dtype=np.intc)
         ale_lib.getMinimalActionSet(self.obj, as_ctypes(act))
+        return act
+
+    def getMinimalActionSetB(self):
+        act_size = ale_lib.getMinimalActionSizeB(self.obj)
+        act = np.zeros((act_size), dtype=np.intc)
+        ale_lib.getMinimalActionSetB(self.obj, as_ctypes(act))
         return act
 
     def getFrameNumber(self):

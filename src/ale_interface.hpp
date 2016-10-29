@@ -118,6 +118,10 @@ public:
   // the game.
   ActionVect getMinimalActionSet();
 
+  // Returns the vector of the minimal set of actions needed to play
+  // the game.
+  ActionVect getMinimalActionSetB();
+
   // Returns the frame number since the loading of the ROM
   int getFrameNumber();
 

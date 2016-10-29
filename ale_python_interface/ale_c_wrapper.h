@@ -56,7 +56,14 @@ extern "C" {
       actions[i] = action_vect[i];
     }
   }
+  void getMinimalActionSetB(ALEInterface *ale,int *actions){
+    ActionVect action_vect = ale->getMinimalActionSetB();
+    for(unsigned int i = 0;i < ale->getMinimalActionSetB().size();i++){
+      actions[i] = action_vect[i];
+    }
+  }
   int getMinimalActionSize(ALEInterface *ale){return ale->getMinimalActionSet().size();}
+  int getMinimalActionSizeB(ALEInterface *ale){return ale->getMinimalActionSetB().size();}
   int getFrameNumber(ALEInterface *ale){return ale->getFrameNumber();}
   int lives(ALEInterface *ale){return ale->lives();}
   int getEpisodeFrameNumber(ALEInterface *ale){return ale->getEpisodeFrameNumber();}

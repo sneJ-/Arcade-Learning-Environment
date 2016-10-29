@@ -33,6 +33,16 @@ ActionVect RomSettings::getMinimalActionSet() {
   return actions;
 }
 
+ActionVect RomSettings::getMinimalActionSetB() {
+  ActionVect actions;
+  for (int a = 0; a < PLAYER_B_NOOP; a++) {
+    if (isMinimal((Action)a) && isLegal((Action)a)) {
+      actions.push_back((Action)a);
+    }
+  }
+  return actions;
+}
+
 ActionVect RomSettings::getAllActions() {
   ActionVect actions;
   for (int a = 0; a < PLAYER_B_NOOP; a++) {

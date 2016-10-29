@@ -91,6 +91,9 @@ public:
     // Returns a restricted (minimal) set of actions. If not overriden, this is all actions.
     virtual ActionVect getMinimalActionSet();
 
+    // Returns a restricted (minimal) set of actions. If not overriden, this is all actions.
+    virtual ActionVect getMinimalActionSetB();
+
     // Returns the set of all legal actions
     ActionVect getAllActions();
     // Returns the set of all legal actions
