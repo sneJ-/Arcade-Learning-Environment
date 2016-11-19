@@ -4,7 +4,7 @@ if [ "$1" == "-i" ]
 then
 	#install main ALE dependencies
 	sudo add-apt-repository universe 
-	sudo apt-get install libsdl1.2-dev libsdl-gfx1.2-dev libsdl-image1.2-dev cmake python-pip ant -y
+	sudo apt-get install libsdl1.2-dev libsdl-gfx1.2-dev libsdl-image1.2-dev cmake python-pip python-dev ant -y
 	sudo -H pip install numpy
 fi
 
